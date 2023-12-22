@@ -23,14 +23,19 @@ camera_apply(camera);
 
 shader_set(shd_basic_3d_stuff);
 
+var rotation = current_time / 1000 * 60;
+shader_set_uniform_f(shader_get_uniform(shd_basic_3d_stuff, "light_direction"), dcos(rotation * 1.5), -dsin(rotation * 1.5), -0.5);
+
+texture_set_stage(shader_get_sampler_index(shd_basic_3d_stuff, "samp_normal"), sprite_get_texture(spr_ground_normal, 0));
 vertex_submit(vb_ground, pr_trianglelist, sprite_get_texture(spr_ground, 0));
 
-var rotation = current_time / 1000 * 60;
 matrix_set(matrix_world, matrix_build(100, 100, 32, 30, 30, rotation, 1, 1, 1));
+texture_set_stage(shader_get_sampler_index(shd_basic_3d_stuff, "samp_normal"), sprite_get_texture(spr_sword_norm, 0));
 vertex_submit(vb_sword, pr_trianglelist, sprite_get_texture(spr_sword, 0));
 
 matrix_set(matrix_world, matrix_build(50, 150, 32, 30, 30, rotation, 1, 1, 1));
 vertex_submit(vb_sword, pr_trianglelist, sprite_get_texture(spr_sword, 0));
+texture_set_stage(shader_get_sampler_index(shd_basic_3d_stuff, "samp_normal"), sprite_get_texture(spr_sheath_norm, 0));
 vertex_submit(vb_sheath, pr_trianglelist, sprite_get_texture(spr_sheath, 0));
 
 matrix_set(matrix_world, matrix_build_identity());
